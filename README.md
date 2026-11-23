@@ -75,7 +75,7 @@ Deploy the contents of `dist/` to a static host such as GitHub Pages, Netlify, o
 
 **Madhavan**
 
-- GitHub: [@madhavan2012](https://github.com/madhavan2012)
+- GitHub: [@madhavan0216](https://github.com/madhavan0216)
 - Email: [madhavan2001vivo@gmail.com](mailto:madhavan2001vivo@gmail.com)
 
 ## License
