@@ -1,0 +1,289 @@
+@import "tailwindcss";
+
+/* ── Design Tokens ────────────────────────────────────────────── */
+@theme {
+  --font-body: 'Inter', sans-serif;
+  --font-display: 'Instrument Serif', serif;
+  --color-bg: #0b120f;
+  --color-surface: rgba(255, 255, 255, 0.02);
+  --color-text-primary: hsl(0 0% 97%);
+  --color-muted: hsl(0 0% 78%);
+  --color-stroke: rgba(255, 255, 255, 0.08);
+  --color-accent: hsl(140 60% 65%);
+}
+
+/* ── Base ─────────────────────────────────────────────────────── */
+html {
+  /* cursor managed by CustomCursor component */
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  letter-spacing: -0.01em;
+  /* Prevent iOS text-size adjustment */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Safe area insets for notched phones */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Cinematic Transitions */
+a, button {
+  transition: color 0.4s ease, border-color 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ── Performance: GPU compositing hints ──────────────────────── */
+html {
+  /* Prevent elastic scroll from creating extra paint layers */
+  overscroll-behavior: none;
+}
+
+body {
+  /* Establish a new stacking context for fixed elements */
+  isolation: isolate;
+}
+
+/* Fixed-position elements: promote to their own layer once and keep there */
+.noise-overlay,
+.cursor-ring,
+[style*="position: fixed"] {
+  will-change: transform;
+}
+
+/* Sections: contain layout/style to avoid full-page reflows */
+section {
+  contain: layout style;
+}
+
+/* Disable expensive backdrop-filter on low-power / mobile devices */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .glass-panel,
+  .float-island,
+  [style*="backdrop-filter"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(10, 10, 20, 0.72) !important;
+  }
+}
+
+::selection {
+  background-color: hsl(140 60% 65% / 0.15);
+  color: hsl(140 60% 65%);
+}
+
+/* ── Accent Gradient Utility ──────────────────────────────────── */
+.accent-gradient {
+  background: linear-gradient(90deg, #3d7a46 0%, #86c48f 100%);
+}
+
+.accent-gradient-text {
+  background: linear-gradient(90deg, #3d7a46 0%, #86c48f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Custom Keyframe Animations ───────────────────────────────── */
+@keyframes scroll-down {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+}
+
+@keyframes role-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse-green {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-scroll-down {
+  animation: scroll-down 1.5s ease-in-out infinite;
+}
+
+.animate-role-fade-in {
+  animation: role-fade-in 0.4s ease-out;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+.animate-pulse-green {
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(0 0% 4%);
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(0 0% 20%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(0 0% 30%);
+}
+
+/* ── Utility ──────────────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Halftone overlay */
+.halftone-overlay {
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+/* Cinematic Effects */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.03;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAD/////////////////////////////////l2Z/dAAAABhRSTlMAAwUHCQoNDhETFBUXGBocHR8hIiMmKistJjU2AAAA80lEQVR4XnVVy23DMAwUSf8B7gP6H2sLUA3iH2U18N3V7F0JgkABgQSx03t585z/Y/z+T/d6/Vv+fn9/P/D5/X4/8Hn+fD7+PT8fHy+P1/f3Z+Tz+vr6+fz+8vLy8n5L9f58Xy3eX+t+fLxE4/3z+Xv4eD39+vl6+Xl+vD/f30+v9/fH++H1/n5/fb++/v29vp9fr6+vl79fr+/P9/f76/X1G/j+vn6/Pz++/7+/X//f9vP98f7++3z9fb++Xj++Pj6+X7/fzz++3l+/ny/fT//fL5+fv8/Py8vp//3z+vr3Ovv/8/x+/X1+fn6ePt+n1+P76+Pn+vn6+n5+Pn8/vz9fX2+vl8/Pz5/Pz/fr6+vr+/nz/f39+3r6+Xn4/vz//T4+Pz+fv//fH5+/f16f39/f3//f5+vr/fH++fl6/r9/T4+Hn//v/9+fXx+//z9/jz/X9/PHz/fn8/3y/f7+fr8EAAAAX0lEQVR4XnVVyw2FMAyUSfkHcA/o/5iLUA3iH2UxdL67mr0rQRAoIJAgdnqvbx7zf4zf/+nert/y9/v7+4HP7/f7gc/j5/Px7/n5+Hh5fH5/PyOf19fXz+f3V5eXl/dbqvfz+2rx/l334+MlGu/vj98fD4+vz0++/Lwf78/399vr/f3xffB6f78/v//YfV+v79fn1+vr5e/X6/tzff3++v31G/h+/X6/P3/+/76/X//b9vfH+/vN8/36+X39fLr4+H7/fnz++np//X5+Pv//H++Xv8/35/X8+vn+//b6+vfR+/3/4/n9+vr8/X28fb5fn8/X18ePz9fX9+Pn9/fn6+Xn+/Xv8/Xz+/r++X76+nr29fb//r4/P/7fXx+//++P/9+fn6/z8//98fr6/f19f7+/f/9/nz/fz///wDAAMz7+T3j+f3AAAAAElFTkSuQmCC");
+  background-size: 100px 100px;
+  background-repeat: repeat;
+  transform: translateZ(0); /* Force GPU acceleration */
+  will-change: transform;
+}
+
+.cinematic-bloom {
+  filter: drop-shadow(0 0 12px rgba(134, 196, 143, 0.4)) drop-shadow(0 0 40px rgba(61, 122, 70, 0.2));
+}
+
+.glass-panel {
+  background: rgba(10, 10, 20, 0.18);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 40px rgba(100, 140, 255, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Floating holographic island — main design token */
+.float-island {
+  background: rgba(10, 10, 20, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 40px rgba(100, 140, 255, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  border-radius: 1.5rem;
+}
+
+/* ── SEO & Accessibility ─────────────────────────────────────── */
+
+/* Skip-to-content link — visible only on keyboard focus */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-stroke);
+  font-size: 0.875rem;
+  z-index: 99999;
+  transition: top 0.2s;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Visually hidden but accessible to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── Print stylesheet ────────────────────────────────────────── */
+@media print {
+  .noise-overlay,
+  .cursor-ring,
+  [style*="position: fixed"],
+  canvas,
+  video,
+  nav {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75rem;
+    color: #666;
+  }
+}

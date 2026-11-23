@@ -1,0 +1,38 @@
+OG IMAGE SPEC — 1200 × 630px
+================================
+
+Background: #0b0f17 (same as site bg)
+
+Left side (60% width):
+  - Small eyebrow: "PORTFOLIO '26" — 14px, #7a7a9a, tracking 0.3em
+  - Name: "MADHAVAN" — 80px, Instrument Serif italic, #f0f0f0
+  - Role: "Cloud & DevOps Engineer" — 18px, Inter Light, #89AACC
+  - Tags row: Cloud · DevOps · Security · AI · Infrastructure
+    Each tag: pill shape, border #1a1a28, text #7a7a9a, 12px
+  - Bottom: "madhavan.dev" — 14px, #7a7a9a
+
+Right side (40% width):
+  - Large "M" lettermark — 200px, Instrument Serif italic, #1a1a28
+  - Subtle accent glow behind M: radial gradient #4E85BF at 10% opacity
+
+Export as: /public/og-image.jpg (JPEG, quality 90)
+
+---
+
+PROJECT OG TEMPLATE — 1200 × 630px
+====================================
+
+Background: #0b0f17
+
+Top-left:
+  - "MADHAVAN" wordmark — 16px, Inter Medium, #7a7a9a
+
+Center:
+  - Project name — 64px, Instrument Serif italic, #f0f0f0
+  - Category — 18px, Inter Light, #89AACC
+  - Tech stack pills — same style as main OG
+
+Bottom-right:
+  - "madhavan.dev" — 14px, #7a7a9a
+
+Use for: Individual project pages when added later.
